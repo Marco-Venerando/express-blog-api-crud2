@@ -1,14 +1,17 @@
+const posts = require("../data/posts");
+
 // INDEX
 function index(req, res) {
-  res.send("Lista dei post");
+  res.json(posts);
 }
-
 // SHOW
 function show(req, res) {
-  const { id } = req.params;
-  res.send(`Dettaglio del post ${id}`);
-}
+  const id = parseInt(req.params.id);
 
+  const post = posts.find((post) => post.id === id);
+
+  res.json(post);
+}
 // CREATE
 function create(req, res) {
   res.send("Creazione di un nuovo post");
@@ -22,10 +25,16 @@ function update(req, res) {
 
 // DELETE
 function destroy(req, res) {
-  const { id } = req.params;
-  res.send(`Cancellazione del post ${id}`);
-}
+  const id = parseInt(req.params.id);
 
+  const index = posts.findIndex((post) => post.id === id);
+
+  posts.splice(index, 1);
+
+  console.log(posts);
+
+  res.sendStatus(204);
+}
 module.exports = {
   index,
   show,
