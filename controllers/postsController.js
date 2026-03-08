@@ -14,9 +14,10 @@ function show(req, res) {
 }
 // CREATE
 function create(req, res) {
-  res.send("Creazione di un nuovo post");
-}
+  console.log(req.body);
 
+  res.json(req.body);
+}
 // UPDATE
 function update(req, res) {
   const { id } = req.params;
