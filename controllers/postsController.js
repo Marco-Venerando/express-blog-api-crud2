@@ -14,16 +14,45 @@ function show(req, res) {
 }
 // CREATE
 function create(req, res) {
-  console.log(req.body);
+  // dati del nuovo post
+  const newPost = req.body;
 
-  res.json(req.body);
+  // nuovo id
+  const newId = posts[posts.length - 1].id + 1;
+
+  newPost.id = newId;
+
+  // aggiungo il post all'array
+  posts.push(newPost);
+
+  // stampo l'array aggiornato
+  console.log(posts);
+
+  // risposta
+  res.status(201).json(newPost);
 }
 // UPDATE
 function update(req, res) {
-  const { id } = req.params;
-  res.send(`Modifica del post ${id}`);
-}
+  const id = parseInt(req.params.id);
 
+  const post = posts.find((post) => post.id === id);
+
+  if (!post) {
+    return res.status(404).json({
+      error: "Post non trovato",
+    });
+  }
+
+  // dati aggiornati
+  const updatedData = req.body;
+
+  // aggiorno il post
+  Object.assign(post, updatedData);
+
+  console.log(posts);
+
+  res.json(post);
+}
 // DELETE
 function destroy(req, res) {
   const id = parseInt(req.params.id);
